@@ -66,9 +66,13 @@ class StratifiedSampler(RaySamplerBase):
         # TODO
         # HINT: Freely use the provided methods 'create_t_bins' and 'map_t_to_euclidean'
         # raise NotImplementedError("Task 2")
-        near = ray_bundle.nears.detach().cpu()[0,0].item()
-        far = ray_bundle.fars.detach().cpu()[0,0].item()
+        num_ray = ray_bundle.origins.shape[0]
+        near = ray_bundle.nears[0].item()
+        far = ray_bundle.fars[0].item()
+
         t_bins = self.create_t_bins(num_sample, torch.cuda.current_device())
+        t_bins = t_bins.expand(num_ray, num_sample) 
+        
         t_samples = torch.rand_like(t_bins)
         t_samples = self.map_t_to_euclidean(t_samples, near, far)
 

@@ -103,7 +103,7 @@ class NeRF(nn.Module):
             if layer == self.num_layers - 1:
                 radiance = self.sigmoid(x)
             elif layer == self.no_relu:
-                sigma = self.relu(x[:, 0])
+                sigma = self.relu(x[:, 0]).unsqueeze(-1)
                 x = x[:, 1:]
             else:
                 x = self.relu(x)

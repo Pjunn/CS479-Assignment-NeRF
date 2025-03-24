@@ -78,9 +78,9 @@ class RaySamples:
         """
         # TODO
         # raise NotImplementedError("Task 2")
-        ray_bundle_origins = self.ray_bundle.origins
-        t_samples = self.t_samples
-        ray_bundle_directions = self.ray_bundle.directions
+        ray_bundle_origins = self.ray_bundle.origins.unsqueeze(1)
+        t_samples = self.t_samples.unsqueeze(-1)
+        ray_bundle_directions = self.ray_bundle.directions.unsqueeze(1)
 
         return ray_bundle_origins + t_samples * ray_bundle_directions
 
