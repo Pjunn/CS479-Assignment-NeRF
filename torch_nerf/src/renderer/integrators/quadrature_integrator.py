@@ -43,4 +43,17 @@ class QuadratureIntegrator(IntegratorBase):
         """
         # TODO
         # HINT: Look up the documentation of 'torch.cumsum'.
-        raise NotImplementedError("Task 3")
+        # raise NotImplementedError("Task 3")
+
+        transmittance = torch.exp(- 
+                                  torch.cat(
+                                      [torch.zeros_like(sigma[:, 0]),
+                                   torch.cumsum(sigma[:, :-1] * delta[:, :-1])]
+                                   )
+                        )
+        opacity = 1 - torch.exp(- sigma * delta)
+        weights = transmittance * opacity
+        rgbs = torch.sum(weights * radiance, 1)
+
+        return (rgbs, weights)
+    
